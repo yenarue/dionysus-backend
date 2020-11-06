@@ -1,0 +1,24 @@
+{
+  "name": "backend",
+  "version": "0.1.0",
+  "description": "Backend of Dinoysus",
+  "main": "index.js",
+  "scripts": {
+    "test": "export NODE_ENV=test && nyc mocha --timeout 10000",
+    "start": "node server.js"
+  },
+  "author": "Yena Kim",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "boom": "^7.3.0",
+    "express": "^4.17.1",
+    "google-spreadsheet": "^3.0.13",
+    "lodash": "^4.17.20",
+    "mongoose": "^5.10.12",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "cors": "^2.8.5"
+  }
+}
