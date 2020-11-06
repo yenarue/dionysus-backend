@@ -31,10 +31,19 @@ const getAllShows = async (req, res) => {
       const answer = {
         id: row['고유b'],
         order: index + 1,
+        tags: [],
       };
 
       headers.forEach(header => {
-        answer[header] = row[header];
+        if (header.includes('특징') && !!row[header]) {
+          const feature = row[header].trim();
+
+          if (feature.length > 0) {
+            answer.tags.push(feature);
+          }
+        } else {
+          answer[header] = row[header];
+        }
       })
 
       return answer;
