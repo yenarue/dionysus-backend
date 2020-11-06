@@ -8,7 +8,7 @@ const getDocument = async (spreadsheetUrl) => {
   const doc = new GoogleSpreadsheet(sheetId);
   await doc.useServiceAccountAuth(credentials);
   await doc.loadInfo();
-  console.log(doc.title);
+  console.log("Get Document Title : " + doc.title);
 
   return doc;
 }
