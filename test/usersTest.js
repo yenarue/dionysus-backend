@@ -2,6 +2,7 @@ const chai = require('chai');
 const should = chai.should();
 const server = require('../server');
 const request = require('supertest').agent(server);
+const UserModel = require('../models/users');
 
 describe('Users', () => {
   describe('PUT /user/signup', () => {
@@ -14,7 +15,6 @@ describe('Users', () => {
         gender: 'etc',
         birthday: new Date("1991-11-04"),
         regions: ["문래", "강남", "수지"],
-        signUpDate: new Date("2020-11-07"),
       }
 
       request.put('/user/signup')
@@ -22,10 +22,11 @@ describe('Users', () => {
         .send(requestData)
         .expect(200)
         .then(res => {
-          console.log(res.body.data.length);
-
-          res.body.headers[0].should.be.eql('고유b');
-          res.body.data[0]['고유b'].should.be.eql('b00000001');
+          return UserModel.find({email: requestData.email});
+        }).then(user => {
+          user.email.should.be.eql('test@email.com');
+          user.nickName.should.be.eql('테스트유저');
+          user.signUpDate.should.be.eql('테스트유저'); // 시논 넣어야 함. 시간 없움
           done();
         })
         .catch(err => done(err));

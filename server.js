@@ -4,7 +4,6 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const packagejson = require('./package.json');
 const {logError, handleError} = require('./middlewares/errorHandler');
-const showsRouter = require('./routes/shows');
 const db = require('./db');
 const config = require('./config');
 const port = config.port;
@@ -32,11 +31,8 @@ app.use(bodyParser.urlencoded({
 
 app.use(morgan('combined'));
 
-app.get('/', (req, res) => {
-  res.send('Hello Dionysus Backend (' + process.env.NODE_ENV + ' v' +  packagejson.version +')');
-});
-
-app.use('/shows', showsRouter);
+app.use('/', require('./routes/index'));
+app.use('/shows', require('./routes/shows'));
 
 app.use((err, req, res, next) => logError(err, req, res, next));
 app.use((err, req, res, next) => handleError(err, req, res, next));
