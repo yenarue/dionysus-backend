@@ -21,6 +21,8 @@ const insertHearts = (showIds, userId) => {
 }
 
 const removeHeart = (showId, userId) => {
+  console.log(showId)
+  console.log(userId)
   return HeartsModel.remove({
     showId: showId,
     userId: userId

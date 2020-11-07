@@ -72,7 +72,9 @@ const postHearts = (req, res) => {
 }
 
 const deleteHeart = (req, res) => {
-  HeartsService.removeHeart(req.params.showId, req.body.authType === 'temp' ? req.body.userId : req.userId)
+  const userId = req.headers['x-id-token'];
+
+  HeartsService.removeHeart(req.params.showId, userId)
     .then(() => res.sendStatus(200))
     .catch(err => next(err));
 }
