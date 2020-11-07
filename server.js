@@ -10,7 +10,7 @@ const config = require('./config');
 const port = config.port;
 const cors = require('cors');
 
-// db.init();
+db.init();
 
 const whitelistOfCors = config.frontendBaseUrl.split(",");
 

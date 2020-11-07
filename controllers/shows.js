@@ -1,4 +1,5 @@
 const GoogleSpreadSheets = require('../utils/googleSpreadSheets');
+const HeartsService = require('../services/hearts');
 const config = require('../config');
 
 const getAllShows = async (req, res) => {
@@ -56,4 +57,20 @@ const getAllShows = async (req, res) => {
   }).catch(err => console.error(err));
 }
 
-module.exports = { getAllShows };
+const putHeart = (req, res, next) => {
+  HeartsService.insertHeart(req.body)
+    .then(() => res.sendStatus(200))
+    .catch(err => next(err))
+}
+
+const postHearts = (req, res) => {
+  HeartsService.insertHearts(req.body)
+    .then(() => res.sendStatus(200)) // 제대로 : 몇 개 저장했고 몇 개 실패했는지 보내야 함
+    .catch(err => next(err));
+}
+
+module.exports = {
+  getAllShows,
+  putHeart,
+  postHearts
+};
