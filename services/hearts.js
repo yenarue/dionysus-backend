@@ -8,7 +8,15 @@ const insertHearts = (hearts) => {
   return HeartsModel.insertMany(hearts);
 }
 
+const removeHeart = (showId, userId) => {
+  return HeartsModel.remove({
+    showId: showId,
+    userId: userId
+  });
+}
+
 module.exports = {
   insertHeart,
-  insertHearts
+  insertHearts,
+  removeHeart,
 };

@@ -7,9 +7,8 @@ const Controller = require('../controllers/shows');
 // router.get('/', Auth.verifyToken, Controller.getUsers);
 
 router.get('/', Controller.getAllShows);
-router.put('/hearts', Controller.putHeart);
+router.put('/heart/:showId', Controller.putHeart);
 router.post('/hearts', Controller.postHearts);
-
-
+router.delete('/heart/:showId', Controller.deleteHeart);
 
 module.exports = router;

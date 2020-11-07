@@ -69,8 +69,15 @@ const postHearts = (req, res) => {
     .catch(err => next(err));
 }
 
+const deleteHeart = (req, res) => {
+  HeartsService.removeHeart(req.body.showId)
+    .then(() => res.sendStatus(200))
+    .catch(err => next(err));
+}
+
 module.exports = {
   getAllShows,
   putHeart,
-  postHearts
+  postHearts,
+  deleteHeart
 };
