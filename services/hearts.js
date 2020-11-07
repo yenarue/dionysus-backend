@@ -1,10 +1,22 @@
 const HeartsModel = require('../models/hearts');
 
-const insertHeart = (heart) => {
+const insertHeart = (showId, userId) => {
+  const heart = {
+    showId: showId,
+    userId: userId
+  };
+
   return new HeartsModel(heart).save();
 }
 
-const insertHearts = (hearts) => {
+const insertHearts = (showIds, userId) => {
+  const hearts = showIds.map(showId =>  {
+    return {
+      showId: showId,
+      userId: userId,
+    }
+  });
+
   return HeartsModel.insertMany(hearts);
 }
 

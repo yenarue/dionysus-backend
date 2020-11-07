@@ -58,19 +58,21 @@ const getAllShows = async (req, res) => {
 }
 
 const putHeart = (req, res, next) => {
-  HeartsService.insertHeart(req.body)
+  HeartsService.insertHeart(req.params.showId,
+    req.body.authType === 'temp' ? req.body.userId : req.userId)
     .then(() => res.sendStatus(200))
     .catch(err => next(err))
 }
 
 const postHearts = (req, res) => {
-  HeartsService.insertHearts(req.body)
+  HeartsService.insertHearts(req.body.showIds,
+    req.body.authType === 'temp' ? req.body.userId : req.userId)
     .then(() => res.sendStatus(200)) // 제대로 : 몇 개 저장했고 몇 개 실패했는지 보내야 함
     .catch(err => next(err));
 }
 
 const deleteHeart = (req, res) => {
-  HeartsService.removeHeart(req.body.showId)
+  HeartsService.removeHeart(req.params.showId, req.body.authType === 'temp' ? req.body.userId : req.userId)
     .then(() => res.sendStatus(200))
     .catch(err => next(err));
 }
