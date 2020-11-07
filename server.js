@@ -2,7 +2,6 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
-const packagejson = require('./package.json');
 const {logError, handleError} = require('./middlewares/errorHandler');
 const db = require('./db');
 const config = require('./config');

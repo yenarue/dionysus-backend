@@ -18,7 +18,7 @@ describe('Users', () => {
       }
 
       request.put('/user/signup')
-        // .set('Authorization', config.accessToken.valid)
+        //  .set('Authorization', config.accessToken.valid)
         .send(requestData)
         .expect(200)
         .then(res => {

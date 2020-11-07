@@ -1,0 +1,97 @@
+aliases:
+  - &setup-heroku
+    name: Setup Heroku
+    command: bash .circleci/setup-heroku.sh $HEROKU_APP
+
+  - &deploy-to-heroku
+    name: Deploy to Heroku
+    command: |
+      git push heroku master -f
+      heroku run rake db:migrate
+      sleep 5
+      heroku restart
+
+defaults: &defaults
+  working_directory: ~/backend # directory where steps will run
+  docker:
+    - image: circleci/node:8.11
+      environment:
+        TZ: "/usr/share/zoneinfo/Asia/Tokyo"
+
+version: 2
+jobs:
+  build:                              # runs not using Workflows must have a `build` job as entry point
+    <<: *defaults
+    steps:                            # a collection of executable commands
+      - checkout                      # special step to check out source code to working directory
+      - run:
+          name: update-npm
+          command: 'sudo npm install -g npm@latest'
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-          # fallback to using the latest cache if no exact match is found
+      - run:
+          name: install-dependencies
+          command: npm install
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+      - run:
+          name: test
+          command: npm test
+  #      - run:
+  #          name: code-coverage
+  #          command: '../node_modules/.bin/nyc report --reporter=text-lcov'
+  #      - store_artifacts: # special step to save test results as as artifact
+  #          path: test-results.xml
+  #          prefix: tests
+  #      - store_artifacts:
+  #          path: coverage
+  #          prefix: coverage
+  #      - store_test_results: # special step to upload test results for display in Test Summary
+  #          path: test-results.xml
+
+  dev-deploy:
+    <<: *defaults
+    environment:
+      - HEROKU_APP : dionysus-alarm-backend-dev
+    steps:
+      - checkout
+      - run: *setup-heroku
+      - run: *deploy-to-heroku
+
+  prd-deploy:
+    <<: *defaults
+    environment:
+      - HEROKU_APP : dionysus-alarm-backend
+    steps:
+      - checkout
+      - run: *setup-heroku
+      - run: *deploy-to-heroku
+#      - run:
+#          name: Archive and Delivery to Slack
+#          command: bash .circleci/archive-and-delivery-to-slack.sh $CIRCLE_BRANCH
+      - store_artifacts:
+          path: output/
+
+workflows:
+  version: 2
+  build-deploy:
+    jobs:
+      - build
+      - dev-deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only:
+                - master
+      - stg-deploy-and-prd-archiving:
+          requires:
+            - build
+          filters:
+            branches:
+              only:
+                - release
