@@ -15,7 +15,7 @@ config.development = {
 config.staging = _.cloneDeep(config.development);
 
 config.production = _.cloneDeep(config.development);
-config.production.spreadsheets.rawData = "";
+config.production.spreadsheets.rawData = "https://docs.google.com/spreadsheets/d/11sRr9ejx7hAJcjgtUNeHHmeQCA50pUe5C6g6NY9Tni8";
 
 config.test = {
   baseUrl: 'http://localhost:8081',
