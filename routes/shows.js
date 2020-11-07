@@ -10,5 +10,6 @@ router.get('/', Controller.getAllShows);
 router.put('/heart/:showId', Controller.putHeart);
 router.post('/hearts', Controller.postHearts);
 router.delete('/heart/:showId', Controller.deleteHeart);
+router.get('/hearts', Controller.getHeartedShows);
 
 module.exports = router;

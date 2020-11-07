@@ -24,6 +24,16 @@ config.test = {
   dbUrl: process.env.MONGO_DB_URL,
   spreadsheets: {
     rawData: "https://docs.google.com/spreadsheets/d/11sRr9ejx7hAJcjgtUNeHHmeQCA50pUe5C6g6NY9Tni8"
+  },
+  testUser: {
+    tempUserId: 'tempUserId',
+    email: 'test@email.com',
+    password: 'normalpw',
+    nickName: '테스트유저',
+    gender: 'etc',
+    birthday: new Date("1991-11-04"),
+    regions: ["문래", "강남", "수지"],
+    signUpDate: new Date("2020-11-07"),
   }
 };
 

@@ -81,9 +81,20 @@ const deleteHeart = (req, res) => {
     .catch(err => next(err));
 }
 
+const getHeartedShows = (req, res, next) => {
+  const userId = req.headers['x-id-token'];
+
+  HeartsService.getHearts(userId)
+    .then(results => {
+      res.json(results.map(result => result.showId))
+    })
+    .catch(err => next(err));
+}
+
 module.exports = {
   getAllShows,
   putHeart,
   postHearts,
-  deleteHeart
+  deleteHeart,
+  getHeartedShows,
 };

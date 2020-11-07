@@ -21,16 +21,21 @@ const insertHearts = (showIds, userId) => {
 }
 
 const removeHeart = (showId, userId) => {
-  console.log(showId)
-  console.log(userId)
   return HeartsModel.remove({
     showId: showId,
     userId: userId
   });
 }
 
+const getHearts = (userId) => {
+  return HeartsModel.find({
+    userId: userId
+  })
+}
+
 module.exports = {
   insertHeart,
   insertHearts,
   removeHeart,
+  getHearts,
 };
