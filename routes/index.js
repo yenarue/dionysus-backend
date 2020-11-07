@@ -7,7 +7,7 @@ const AuthController = require('../controllers/auth');
 // router.get('/', Auth.verifyToken, Controller.getUsers);
 
 router.get('/', (req, res) => {
-  res.send('Hello Dionysus Backend (' + process.env.NODE_ENV + ' v' +  packagejson.version +')');
+  res.send('Hello Dionysus Backend (' + process.env.NODE_ENV + ' v' +  require('../package.json').version +')');
 });
 
 router.put('/signup', AuthController.signUp);
