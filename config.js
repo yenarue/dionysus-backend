@@ -9,7 +9,8 @@ config.development = {
   dbUrl: process.env.MONGO_DB_URL,
   spreadsheets: {
     rawData: "https://docs.google.com/spreadsheets/d/11sRr9ejx7hAJcjgtUNeHHmeQCA50pUe5C6g6NY9Tni8"
-  }
+  },
+  jwtSecretKey: process.env.JWT_SECRET_KEY,
 };
 
 config.staging = _.cloneDeep(config.development);
@@ -34,6 +35,12 @@ config.test = {
     birthday: new Date("1991-11-04"),
     regions: ["문래", "강남", "수지"],
     signUpDate: new Date("2020-11-07"),
+    jwtSecretKey: "jwtSecretKey",
+    jwt: {
+      valid: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDQ4MzQ1NjgsImV4cCI6MTE2MDQ4MzQ1NjcsImlkIjoidGVzdGp3dCJ9.gAsj90WxTtMeZtxkuT9MqzYnIkIzqaDblIJkB25-LQc",
+      expired: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDQ4MzQ1OTMsImV4cCI6MTYwNDgzNDU5NCwiaWQiOiJ0ZXN0and0MiJ9.LlB4p9rwNbk5-ehYE90HnQpnlj_FhTmxTEsirx6QYTY",
+      invalid: "IamFake",
+    }
   }
 };
 

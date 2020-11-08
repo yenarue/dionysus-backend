@@ -11,5 +11,7 @@ router.get('/', (req, res) => {
 });
 
 router.put('/signup', AuthController.signUp);
+router.put('/signin', AuthController.signIn);
+router.put('/signout', AuthController.signOut);
 
 module.exports = router;

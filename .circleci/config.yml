@@ -82,15 +82,15 @@ workflows:
     jobs:
       - build
       - dev-deploy:
-          requires:
-            - build
+#          requires:
+#            - build
           filters:
             branches:
               only:
                 - master
       - stg-deploy-and-prd-archiving:
-          requires:
-            - build
+#          requires:
+#            - build
           filters:
             branches:
               only:

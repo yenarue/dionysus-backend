@@ -90,7 +90,7 @@ describe('Shows', () => {
       };
 
       request.post('/shows/hearts')
-        .set('x-id-token', config.testUser.tempUserId)
+        .set('x-access-token', config.testUser.jwt.valid)
         .send(requestData)
         .expect(200)
         .then(res => {
@@ -158,6 +158,7 @@ describe('Shows', () => {
           results.length.should.be.eql(3);
           const hearts = results.sort((a, b) => a.showId - b.showId);
 
+          console.log(results);
           hearts[0].showId.should.be.eql("b00000002");
           hearts[0].userId.should.be.eql("user1");
           hearts[1].showId.should.be.eql("b00000001");
@@ -208,7 +209,7 @@ describe('Shows', () => {
     it("나의 호감 공연 목록 조회하기", done => {
       request.get('/shows/hearts')
         // .set('x-id-token', config.accessToken.valid)
-        .set('x-id-token', config.testUser.tempUserId)
+        .set('x-access-token', config.testUser.jwt.valid)
         .expect(200)
         .then(res => {
           res.body.length.should.be.eql(2);
