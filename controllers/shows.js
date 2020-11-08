@@ -24,10 +24,6 @@ const getAllShows = async (req, res) => {
       });
     }).then(async rows => {
 
-    console.log('headers=', headers);
-    console.log(rows.length);
-    console.log(rows[0]);
-
     const data = rows.map((row, index) => {
       const answer = {
         id: row['고유b'],
