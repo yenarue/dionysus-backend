@@ -58,15 +58,15 @@ const getAllShows = async (req, res) => {
 }
 
 const putHeart = (req, res, next) => {
-  const userId = req.headers['x-id-token'];
+  const userId = req.userId ? req.userId : req.headers['x-id-token'];
 
-  HeartsService.insertHeart(req.params.showId,userId)
+  HeartsService.insertHeart(req.params.showId, userId)
     .then(() => res.sendStatus(200))
     .catch(err => next(err))
 }
 
 const postHearts = (req, res) => {
-  const userId = req.headers['x-id-token'];
+  const userId = req.userId;
 
   HeartsService.insertHearts(req.body.showIds, userId)
     .then(() => res.sendStatus(200)) // 제대로 : 몇 개 저장했고 몇 개 실패했는지 보내야 함
@@ -74,7 +74,7 @@ const postHearts = (req, res) => {
 }
 
 const deleteHeart = (req, res) => {
-  const userId = req.headers['x-id-token'];
+  const userId = req.userId ? req.userId : req.headers['x-id-token'];
 
   HeartsService.removeHeart(req.params.showId, userId)
     .then(() => res.sendStatus(200))
@@ -82,7 +82,7 @@ const deleteHeart = (req, res) => {
 }
 
 const getHeartedShows = (req, res, next) => {
-  const userId = req.headers['x-id-token'];
+  const userId = req.userId;
 
   HeartsService.getHearts(userId)
     .then(results => {

@@ -1,7 +1,6 @@
 const bcrypt = require('bcryptjs');
 const UserModel = require('../models/users');
-
-const AUTH_SALT_ROUNDS = 10;
+const authUtil = require('../utils/auth');
 
 class AlreadyExistError extends Error {
   constructor(message) {
@@ -18,20 +17,24 @@ const findAndAddUser = (userInfo) => {
       if (user) {
         throw new AlreadyExistError();
       } else {
-        userInfo.password = bcrypt.hashSync(userInfo.password, AUTH_SALT_ROUNDS);
+        userInfo.password = authUtil.encryptPassword(userInfo.password);
         userInfo.signUpDate = new Date();
         return new UserModel(userInfo).save();
       }
     })
 };
 
-const logout = (req, res) => {
-  res.clearCookie('access_token');
-  res.removeHeader('Authorization');
-  return res.sendStatus(204);
+const findOneUser = (email) => {
+  return UserModel.findOne({ email: email }, { userId: 1, password: 1, email: 1, nickName: 1 });
+}
+
+const getUser = (userId) => {
+  return UserModel.findOne({ _id: userId }, { userId: 1, password: 1, email: 1, nickName: 1 });
 }
 
 module.exports = {
   AlreadyExistError,
-  findAndAddUser
+  findAndAddUser,
+  findOneUser,
+  getUser,
 }
