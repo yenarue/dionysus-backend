@@ -88,7 +88,7 @@ workflows:
             branches:
               only:
                 - master
-      - stg-deploy-and-prd-archiving:
+      - prd-deploy:
 #          requires:
 #            - build
           filters:
