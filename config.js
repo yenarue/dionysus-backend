@@ -11,6 +11,12 @@ config.development = {
     rawData: "https://docs.google.com/spreadsheets/d/11sRr9ejx7hAJcjgtUNeHHmeQCA50pUe5C6g6NY9Tni8"
   },
   jwtSecretKey: process.env.JWT_SECRET_KEY,
+  oauth: {
+    kakao: {
+      clientId: "8a5ab536a1eab9f4d3880740a4c6f172",
+      clientSecret: "",
+    }
+  }
 };
 
 config.staging = _.cloneDeep(config.development);

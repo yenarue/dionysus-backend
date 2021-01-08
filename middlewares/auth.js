@@ -1,8 +1,8 @@
-const JWT = require('jsonwebtoken');
 const config = require('../config');
 const UserService = require('../services/users');
 const AuthUtil = require('../utils/auth');
 
+/** start of Errors **/
 class NotExistUserError extends Error {
   constructor(message, data) {
     super(message);
@@ -10,6 +10,8 @@ class NotExistUserError extends Error {
     this.data = data;
   }
 }
+
+/** end of Errors **/
 
 const createErrorResponse = (userId, errCode, errMessage) => {
   return {
@@ -27,37 +29,7 @@ const verify = (token) => {
   }
 
   return new Promise((resolve, reject) => {
-    console.log('???????????')
     resolve(AuthUtil.veirfyToken(token));
-    // AuthUtil.veirfyToken(token)
-    //   .then(decoded => {
-    //     console.log(decoded)
-    //     return UserService.getUser(decoded.userId)
-    //       .then(user => {
-    //         if (!user) {
-    //           throw new NotExistUserError('The user does NOT exist', decoded);
-    //         }
-    //
-    //         return Promise.resolve(user);
-    //       })
-    //   })
-    //   .then(user => {
-    //     console.log(user)
-    //     resolve(user._id);
-    //   })
-    //   .catch(err => {
-    //     console.error(err);
-    //
-    //     if (err instanceof JWT.TokenExpiredError) {
-    //       reject(createErrorResponse(undefined, 401, err.message));
-    //     } else if (err instanceof JWT.JsonWebTokenError || err instanceof JWT.NotBeforeError) {
-    //       reject(createErrorResponse(undefined, 403, err.message));
-    //     } else if (err instanceof NotExistUserError) {
-    //       reject(createErrorResponse(err.data.userId, 403, 'The user does NOT exist'))
-    //     } else {
-    //       reject(createErrorResponse(undefined, 500, 'Internal Server Error'));
-    //     }
-    //   });
   });
 };
 
@@ -97,7 +69,22 @@ const verifyTokenButAllowTempUser = (req, res, next) => {
   }
 }
 
+/** for passport **/
+const ensureAuthenticated = (req, res, next) => {
+  if (!req.isAuthenticated()) {
+    return res.sendStatus(401);
+  }
+
+  UserService.findUser(req.user.userId)
+    .then(() => next())
+    .catch(err => {
+      console.error(err);
+      res.sendStatus(500);
+  })
+}
+
 module.exports = {
   verifyToken,
-  verifyTokenButAllowTempUser
+  verifyTokenButAllowTempUser,
+  ensureAuthenticated
 };

@@ -24,17 +24,31 @@ const findAndAddUser = (userInfo) => {
     })
 };
 
-const findOneUser = (email) => {
+const findUserByEmail = (email) => {
   return UserModel.findOne({ email: email }, { userId: 1, password: 1, email: 1, nickName: 1 });
 }
 
+const findUser = (userId) => {
+  return UserModel.findOne({ userId: userId });
+}
+
 const getUser = (userId) => {
-  return UserModel.findOne({ _id: userId }, { userId: 1, password: 1, email: 1, nickName: 1 });
+  return UserModel.findOne({ userId: userId }, { userId: 1, password: 1, email: 1, nickName: 1 });
+}
+
+const findOrUpsertUser = (user) => {
+  return UserModel.findOneAndUpdate(
+    { userId: user.userId },
+    { $set: user },
+    { upsert: true }
+    )
 }
 
 module.exports = {
   AlreadyExistError,
   findAndAddUser,
-  findOneUser,
+  findUserByEmail,
+  findUser,
+  findOrUpsertUser,
   getUser,
 }

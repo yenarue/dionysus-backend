@@ -3,6 +3,13 @@ const Schema = mongoose.Schema;
 
 const schema = new Schema({
   userId: String,
+  provider: String,
+  providerId: String,
+  name: String,
+  image: {
+    url: String,
+    thumbnail: String
+  },
   email: String,
   password: String,
   nickName: String,
@@ -10,9 +17,6 @@ const schema = new Schema({
   birthday: Date,
   regions: Array,
   signUpDate: Date,
-
-  // 임시 필드
-  tempUserId: String,
 });
 
 module.exports = mongoose.model('users', schema);
