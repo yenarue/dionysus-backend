@@ -28,9 +28,10 @@ router.get('/auth/fail', (req, res) => {
 });
 router.get('/auth/signup', (req, res) => {
   console.log('auth signup')
-  res.redirect(config.frontendBaseUrl + '/signup');
+  res.redirect(config.frontendBaseUrl + '/signup?email=' + req.query.email);
 });
 router.get('/auth/logout', AuthMiddleware.ensureAuthenticated, AuthController.logout);
 
+router.put('/signup', AuthController.signUpUser);
 
 module.exports = router;

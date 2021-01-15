@@ -44,11 +44,33 @@ const findOrUpsertUser = (user) => {
     )
 }
 
+const findOneOrInitializeUser = (reqUser) => {
+  console.log('[findOneOrSignUpUser] ', reqUser);
+  return UserModel.findOne({ userId: reqUser.userId })
+    .then(user => {
+      if (user) {
+        return Promise.resolve(user);
+      }
+
+      return new UserModel(reqUser).save();
+    });
+}
+
+// userInfo : 사용하는 곳에서 특정 필드 명시하여 넘기는 것을 권장
+const updateUser = (userInfo) => {
+  return UserModel.findOneAndUpdate(
+    { userId: userInfo.userId },
+    { $set: userInfo }
+  );
+}
+
 module.exports = {
   AlreadyExistError,
   findAndAddUser,
   findUserByEmail,
   findUser,
   findOrUpsertUser,
+  findOneOrInitializeUser,
+  updateUser,
   getUser,
 }

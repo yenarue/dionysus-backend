@@ -19,10 +19,9 @@ const init = () => {
           thumbnail: profile._json.properties ? profile._json.properties.thumbnail_image : ""
         },
         email: profile._json.kakao_account.email,
-        signUpDate: new Date(),
       };
 
-      UserService.findOrUpsertUser(user)
+      UserService.findOneOrInitializeUser(user)
         .then(user => {
           console.log('user=', user);
           done(null, user);
